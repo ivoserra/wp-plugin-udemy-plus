@@ -15,7 +15,7 @@ function up_activate_plugin(){
     // query for table we created in admirer wp data base
 
     global $wpdb;
-    $tableName = "{$wpdb->prefix}recipe_ratings";
+    $tableName = "{$wpdb->prefix}recipe_rating";
     $charsetCollate = $wpdb->get_charset_collate();
 
     $sql = " CREATE TABLE {$tableName} (

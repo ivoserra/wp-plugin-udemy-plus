@@ -24,7 +24,7 @@ function up_rest_api_add_rating_handler($request){
         // %s : string
         // %b : boolean
 
-        "SELECT * FROM {$wpdb->prefix}recipe_ratings WHERE post_id = %d AND user_id = %d",
+        "SELECT * FROM {$wpdb->prefix}recipe_rating WHERE post_id = %d AND user_id = %d",
         $postID, $userID
     ));
 
@@ -34,7 +34,7 @@ function up_rest_api_add_rating_handler($request){
 
     // insert the recipe
     $wpdb->insert(
-        "{$wpdb->prefix}recipe_ratings",
+        "{$wpdb->prefix}recipe_rating",
         [
             'post_id' => $postID,
             'user_id' => $userID,
@@ -46,7 +46,7 @@ function up_rest_api_add_rating_handler($request){
 
     // it will end a query and return the calculation of a query
     $avgRating = round(wpdb->get_var($wpdb->prepare(
-        "SELECT AVG(`rating`) FROM {$wpdb->prefix}recipe_ratings WHERE post_id = %d",
+        "SELECT AVG(`rating`) FROM {$wpdb->prefix}recipe_rating WHERE post_id = %d",
         $postID
     )), 1);
 

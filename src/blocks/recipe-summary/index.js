@@ -1,45 +1,52 @@
 import { registerBlockType } from '@wordpress/blocks';
 import { useBlockProps, RichText } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import { useEntityProp } from '@wordpress/core-data';
-import { useSelect } from '@wordpress/data';
-import { Spinner } from '@wordpress/components';
-import Rating from '@mui/material/Rating/index.js';
+import { useEntityProp } from '@wordpress/core-data'
+import { useSelect } from '@wordpress/data'
+import { Spinner } from '@wordpress/components'
+import Rating from '@mui/material/Rating/index.js'
 import icons from '../../icons.js';
 import './main.css';
-
 
 registerBlockType('udemy-plus/recipe-summary', {
   icon: {
     src: icons.primary
   },
-
   edit({ attributes, setAttributes, context }) {
     const { prepTime, cookTime, course } = attributes;
     const blockProps = useBlockProps();
-    // console.log(context)
-    const { postId } = context;
-     console.log(postId)
-     // array of tags in cuisine dashboard of new recipe
-    const [termIDs] = useEntityProp('postType', 'recipe', 'cuisine', postId);
-    // console.log(termIDs);
+    const { postId } = context 
+
+    const [termIDs] = useEntityProp(
+      'postType', 'recipe', 'cuisine', postId
+    )
 
     const { cuisines, isLoading } = useSelect((select) => {
-        const { getEntityRecords, isResolving } = select('core')
-        const taxonomyArgs = ['taxonomy', 'cuisine', {include: termIDs}]
+      const { getEntityRecords, isResolving } = select('core')
 
-        return { 
-            cuisines: getEntityRecords(...taxonomyArgs), 
-            isLoading: isResolving('getEntityRecords', taxonomyArgs)
+      const taxonomyArgs = [
+        'taxonomy', 
+        'cuisine', 
+        {
+          include: termIDs
         }
-    },[termIDs])
+      ]
 
-   const { rating } = useSelect((select) => {
-       const { getCurrentPostAttribute } = select('core/editor')
-       return { rating: getCurrentPostAttribute('meta').recipe_rating}
+      return {
+        cuisines: getEntityRecords(...taxonomyArgs),
+        isLoading: isResolving('getEntityRecords', taxonomyArgs)
+      }
+    }, [termIDs])
+
+    const { rating } = useSelect(select => {
+      const { getCurrentPostAttribute } = select('core/editor')
+
+      return {
+        rating: getCurrentPostAttribute('meta').recipe_rating
+      }
     })
 
-   // console.log(cuisines)
+    console.log(rating)
 
     return (
       <>
@@ -85,22 +92,23 @@ registerBlockType('udemy-plus/recipe-summary', {
               <div className="recipe-metadata">
                 <div className="recipe-title">{__('Cuisine', 'udemy-plus')}</div>
                 <div className="recipe-data recipe-cuisine">
-                    {
-                        isLoading && <Spinner />
-                    }
-                    {
-                       !isLoading && cuisines && cuisines.map( (item, index) => {
-                            const comma = cuisines[index + 1] ? ', ' : '';
-                            return (
-                                <>
-                                <a href={item.meta.more_info_url}>
-                                    {item.name}
-                                </a>
-                                {comma}
-                                </>
-                            )
-                        })
-                    }
+                  {
+                    isLoading &&
+                    <Spinner />
+                  }
+                  {
+                    !isLoading && cuisines && cuisines.map((item, index) => {
+                      const comma = cuisines[index + 1] ? ',' : ''
+
+                      return (
+                        <>
+                          <a href={item.meta.more_info_url}>
+                            {item.name}
+                          </a>{comma}
+                        </>
+                      )
+                    })
+                  }
                 </div>
               </div>
               <i className="bi bi-egg-fried"></i>
@@ -108,7 +116,10 @@ registerBlockType('udemy-plus/recipe-summary', {
             <div className="recipe-metadata">
               <div className="recipe-title">{__('Rating', 'udemy-plus')}</div>
               <div className="recipe-data">
-                <Rating name="read-only" value={rating} readOnly />
+                <Rating 
+                  value={rating}
+                  readOnly
+                />
               </div>
               <i className="bi bi-hand-thumbs-up"></i>
             </div>

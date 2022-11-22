@@ -1,24 +1,24 @@
 {
-    "$schema": "https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/block.json",
-    "apiVersion": 2,
-    "name": "udemy-plus/recipe-summary",
-    "title": "Recipe Summary",
-    "category": "text",
-    "description": "Adds a summary section for a recipe",
-    "textdomain": "udemy-plus",
-    "attributes": {
-      "prepTime": {
-        "type": "string"
-      },
-      "cookTime": {
-        "type": "string"
-      },
-      "course": {
-        "type": "string"
-      }
+  "$schema": "https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/block.json",
+  "apiVersion": 2,
+  "name": "udemy-plus/recipe-summary",
+  "title": "Recipe Summary",
+  "category": "text",
+  "description": "Adds a summary section for a recipe",
+  "textdomain": "udemy-plus",
+  "attributes": {
+    "prepTime": {
+      "type": "string"
     },
-    "editorScript": "file:./index.js",
-    "style": "file:./index.css",
-    "usesContext": ["postId"],
-    "script": "file:./frontend.js"
-  }
+    "cookTime": {
+      "type": "string"
+    },
+    "course": {
+      "type": "string"
+    }
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./index.css",
+  "usesContext": ["postId"],
+  "script": "file:./frontend.js"
+}
